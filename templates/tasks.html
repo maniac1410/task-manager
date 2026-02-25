@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>My Tasks</h1>
+    <a href="{% url 'add_task' %}" class="btn-primary">+ Add Task</a>
+</div>
+
+{% if tasks %}
+<div class="task-grid">
+    {% for task in tasks %}
+        <div class="card task-card">
+
+            <div class="task-header">
+                <h3>{{ task.title }}</h3>
+
+                <span class="priority 
+                    {% if task.priority == 1 %}priority-urgent
+                    {% elif task.priority == 2 %}priority-high
+                    {% elif task.priority == 3 %}priority-medium
+                    {% else %}priority-low
+                    {% endif %}">
+                    {{ task.get_priority_display }}
+                </span>
+            </div>
+
+            <p class="task-desc">
+                {{ task.description }}
+            </p>
+
+            <div class="task-footer">
+                <div class="status 
+                    {% if task.status %}
+                        status-completed
+                    {% else %}
+                        status-pending
+                    {% endif %}">
+                    {% if task.status %}
+                        ✓ Completed
+                    {% else %}
+                        ⏳ Pending
+                    {% endif %}
+                </div>
+
+                {% if task.due_date %}
+                    <div class="due-date">
+                        Due: {{ task.due_date }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="task-actions">
+    <a href="{% url 'edit_task' task.pk %}" class="btn-outline">
+        Edit
+    </a>
+    <a href="{% url 'delete_task' task.pk %}" class="btn-danger">
+    Delete
+</a>
+</div>
+
+
+        </div>
+        
+        
+    {% endfor %}
+</div>
+{% else %}
+
+<div class="card empty-state">
+    <h2>No Tasks Yet</h2>
+    <p>Create your first task to get started.</p>
+    <a href="{% url 'add_task' %}" class="btn-primary">Create Task</a>
+</div>
+
+{% endif %}
+
+<style>
+
+/* Page Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+/* Grid Layout */
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Task Card */
+.task-card h3 {
+    margin-bottom: 8px;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-desc {
+    margin: 10px 0 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Footer */
+.task-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+}
+
+/* Status */
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.status-completed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+/* Priority Badges */
+.priority {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.priority-urgent {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.priority-high {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+.priority-medium {
+    background: #e0f2fe;
+    color: #075985;
+}
+
+.priority-low {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+}
+
+.task-actions {
+    margin-top: 15px;
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+    margin-left:8px;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+</style>
+
+{% endblock %}

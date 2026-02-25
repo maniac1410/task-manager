@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Create Task{% endblock %}
+
+{% block content %}
+
+<div class="form-wrapper">
+    <div class="card form-card">
+
+        <div class="form-header">
+            <h2>Create New Task</h2>
+            <p>Add a new task to your dashboard</p>
+        </div>
+
+        <form method="post" class="modern-form">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small class="help-text">
+                            {{ field.help_text }}
+                        </small>
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="error">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="form-actions">
+                <a href="{% url 'tasks' %}" class="btn-outline">Cancel</a>
+                <button type="submit" class="btn-primary">
+                    Create Task
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<style>
+/* Form Layout Improvements */
+.modern-form input,
+.modern-form textarea,
+.modern-form select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    transition: 0.2s ease;
+    background-color: #fff;
+}
+
+.modern-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.modern-form input:focus,
+.modern-form textarea:focus,
+.modern-form select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+    outline: none;
+}
+
+/* Checkbox Styling */
+.modern-form input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* Help Text */
+.help-text {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Better spacing for form actions */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+</style>
+
+{% endblock %}
