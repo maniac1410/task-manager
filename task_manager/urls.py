@@ -18,12 +18,12 @@ from django.contrib import admin
 from django.urls import path,include
 from django.shortcuts import redirect
 
-# def root_redirect(request):
-#     return redirect('/tasks/')
+def root_redirect(request):
+    return redirect('/tasks/')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/', include('apps.tasks.urls')),
+    path('tasks/', include('apps.tasks.urls')),
     path('accounts/', include('apps.accounts.urls'))
 ]
